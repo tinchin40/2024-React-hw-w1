@@ -121,7 +121,11 @@ function App() {
 
                 {tempProduct.imagesUrl?.map((image, index) => {
                   return (
-                    <img className="img-fluid" src={image} key={index}></img>
+                    <img
+                      className="img-fluid img-size"
+                      src={image}
+                      key={index}
+                    ></img>
                   );
                 })}
               </div>
