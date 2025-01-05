@@ -55,6 +55,7 @@ let productList = [
   },
 ];
 function App() {
+  const [tempProduct, setTempProduct] = React.useState({});
   return (
     <div className="container mt-5">
       <div className="row">
@@ -78,7 +79,13 @@ function App() {
                   <td>{product.price}</td>
                   <td>{product.is_enabled}</td>
                   <td>
-                    <button type="button" className="btn btn-info">
+                    <button
+                      onClick={() => {
+                        setTempProduct(product);
+                      }}
+                      type="button"
+                      className="btn btn-primary"
+                    >
                       查看細節
                     </button>
                   </td>
@@ -89,26 +96,39 @@ function App() {
         </div>
         <div className="col-6">
           <h2>單一產品細節</h2>
-          {productList.map((product) => (
+          {/* 判斷是否有title資料(是否有商品資料傳入)，如果沒有資料就為空，並貼上冒號後面<p>請選擇一個商品查看</p>，反之如點擊後有就貼上冒號前面的值 */}
+          {tempProduct.title ? (
             <div className="card">
-              <img src={product.imageUrl} className="card-img-top" alt="..." />
+              <img
+                src={tempProduct.imageUrl}
+                className="card-img-top"
+                alt="..."
+              />
               <div className="card-body">
                 <h5 className="card-title">
-                  {product.title}
+                  {tempProduct.title}
                   <span className="badge text-bg-primary">
-                    {product.category}
+                    {tempProduct.category}
                   </span>
                 </h5>
 
-                <p className="card-text">商品描述:{product.description}</p>
-                <p className="card-text">商品內容:{product.content}</p>
+                <p className="card-text">商品描述:{tempProduct.description}</p>
+                <p className="card-text">商品內容:{tempProduct.content}</p>
                 <p className="card-text">
-                  <del>{product.origin_price}</del>/{product.price}
+                  <del>{tempProduct.origin_price}</del>/{tempProduct.price}
                 </p>
                 <h5 className="card-title">更多圖片:</h5>
+
+                {tempProduct.imagesUrl?.map((image, index) => {
+                  return (
+                    <img className="img-fluid" src={image} key={index}></img>
+                  );
+                })}
               </div>
             </div>
-          ))}
+          ) : (
+            <p>請選擇一個商品查看</p>
+          )}
         </div>
       </div>
     </div>
@@ -116,4 +136,4 @@ function App() {
 }
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(<App />);
-//元件名稱要大寫
+//元件名稱開頭要大寫
